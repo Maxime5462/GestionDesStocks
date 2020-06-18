@@ -1,0 +1,164 @@
+{% extends 'base.html.twig' %}
+
+{% block titre %}
+  Page listant les articles
+{% endblock %}
+{% block contenu %}
+  {% if (message|length) > 0 %}
+    <div class="alert alert-{{ message.type }}" role="alert">
+      {{ message.contenu }}
+    </div>
+  {% endif %}
+  <table class="table text-center monTableau" id="tableauArticles">
+    <thead>
+      <tr class="table-dark">
+        <th>
+          Référence
+        </th>
+        <th>
+          Quantité
+        </th>
+        <th>
+          Nom
+        </th>
+        <th>
+          Description
+        </th>
+        <th>
+          Marque
+        </th>
+        <th>
+          Catégorie
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for article in liste %}
+        <tr>
+          <td class="align-middle">
+            {{ article.ref }}
+          </td>
+          <td class="align-middle">
+            {{ article.quantity }}
+          </td>
+          <td class="align-middle">
+            {{ article.nom }}
+          </td>
+          <td class="align-middle">
+            {{ article.description }}
+          </td>
+          <td class="align-middle">
+            {{ article.marque }}
+          </td>
+          <td class="align-middle">
+            {{ article.category }}
+          </td>
+          <td class="align-middle">
+            <a href="/articles/modification/{{ article._id }}"
+              class="btn btn-warning">
+              Modifier
+            </a>
+          </td>
+          <td class="align-middle">
+            <form method="POST"
+              action="/articles/delete/{{ article._id }}"
+              onSubmit="return confirm('Voulez-vous vraiment supprimer l'article ?');">
+              <button class="btn btn-danger" type="submit">Supprimer</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <button class="btn btn-success w-100" onClick="afficherFormulaire()">
+    Ajouter
+  </button>
+  <form id="ajoutForm"
+    class="d-none"
+    method="POST"
+    action=""
+    enctype="multipart/form-data">
+    <fieldset>
+      <legend>
+        Création d'un article
+      </legend>
+      <div class="form-group">
+        <label for="ref">Réference</label>
+        <input type="text" class="form-control" id="ref" name="ref" />
+      </div>
+      <div class="form-group">
+        <label for="quantity">Quantité</label>
+        <input type="number"
+          class="form-control"
+          id="quantity"
+          name="quantity" />
+      </div>
+      <div class="form-group">
+        <label for="nom">Nom</label>
+        <input type="text" class="form-control" id="nom" name="nom" />
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea class="form-control"
+          id="description"
+          name="description"
+          rows="3"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="marque">Marque</label>
+        <select class="form-control" id="marque" name="marque">
+          <option value="">
+            --Please choose an option--
+          </option>
+          <option value="Tamtung">
+            Tamtung
+          </option>
+          <option value="Tony">
+            Tony
+          </option>
+          <option value="LBJ">
+            LBJ
+          </option>
+          <option value="Loose">
+            Loose
+          </option>
+          <option value="Poignée">
+            Poignée
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="category">Catégorie</label>
+        <select class="form-control" id="category" name="category">
+          <option value="">
+            --Please choose an option--
+          </option>
+          <option value="Appareil photo">
+            Appareil photo
+          </option>
+          <option value="TV">
+            TV
+          </option>
+          <option value="Son">
+            Son
+          </option>
+          <option value="Téléphone">
+            Téléphone
+          </option>
+          <option value="Caméra">
+            Caméra
+          </option>
+          <option value="GPS">
+            GPS
+          </option>
+          <option value="Ordinateur">
+            Ordinateur
+          </option>
+        </select>
+      </div>
+      <button class="btn btn-primary" type="submit">Valider</button>
+    </fieldset>
+  </form>
+  <script src="/javascript/ajoutarticle.js"></script>
+{% endblock %}
